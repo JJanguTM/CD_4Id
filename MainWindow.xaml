@@ -1,0 +1,190 @@
+﻿<Window x:Class="CD_4.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="MainWindow" Background="#1A1A1A"
+        WindowState="Maximized"
+        MinWidth="1341" MinHeight="780">
+	<Window.Resources>
+		<!-- 버튼 스타일 정의 -->
+		<Style TargetType="Button">
+			<Setter Property="Background" Value="#333333"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="BorderBrush" Value="#444444"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value="#1E90FF"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+
+		<!-- 원형 버튼 스타일 정의 -->
+		<Style TargetType="Button" x:Key="CircularButton">
+			<Setter Property="Background" Value="#333333"/>
+			<Setter Property="Foreground" Value="White"/>
+			<Setter Property="FontSize" Value="14"/>
+			<Setter Property="BorderBrush" Value="#444444"/>
+			<Setter Property="BorderThickness" Value="1"/>
+			<Setter Property="Template">
+				<Setter.Value>
+					<ControlTemplate TargetType="Button">
+						<Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="50">
+							<ContentPresenter HorizontalAlignment="Center"
+                                              VerticalAlignment="Center"/>
+						</Border>
+					</ControlTemplate>
+				</Setter.Value>
+			</Setter>
+			<Style.Triggers>
+				<Trigger Property="IsMouseOver" Value="True">
+					<Setter Property="Background" Value="#1E90FF"/>
+				</Trigger>
+			</Style.Triggers>
+		</Style>
+	</Window.Resources>
+
+	<!-- 메인 그리드 레이아웃 -->
+	<Grid>
+		<!-- 열 정의 -->
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="*"/>
+		</Grid.ColumnDefinitions>
+
+		<!-- 1구역: Video1~4 (왼쪽 영역) -->
+		<Grid Grid.Column="0" Margin="10">
+			<Grid.RowDefinitions>
+				<RowDefinition/>
+				<RowDefinition/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<TextBlock Text="Video 1" FontSize="16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,10"/>
+			<TextBlock Text="Video 2" FontSize="16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,0,0,107" Grid.Column="1"/>
+			<TextBlock Text="Video 3" FontSize="16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,19,0,-9" Grid.Row="1"/>
+			<TextBlock Text="Video 4" FontSize="16" FontWeight="Bold" Foreground="White" HorizontalAlignment="Center" Margin="0,19,0,-9" Grid.Column="1" Grid.Row="1"/>
+			<!-- Video 1 -->
+			<Border BorderBrush="Gray" BorderThickness="0" Grid.Row="0" Grid.Column="0" Margin="5,50,5,5">
+				<MediaElement x:Name="Video1" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
+			</Border>
+
+			<!-- Video 2 -->
+			<Border BorderBrush="Gray" BorderThickness="0" Grid.Row="0" Grid.Column="1" Margin="5,50,5,5">
+				<MediaElement x:Name="Video2" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill" Margin="0,-1,0,0"/>
+			</Border>
+
+			<!-- Video 3 -->
+			<Border BorderBrush="Gray" BorderThickness="0" Grid.Row="1" Grid.Column="0" Margin="5,50,5,5">
+				<MediaElement x:Name="Video3" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
+			</Border>
+
+			<!-- Video 4 -->
+			<Border BorderBrush="Gray" BorderThickness="0" Grid.Row="1" Grid.Column="1" Margin="5,50,5,5">
+				<MediaElement x:Name="Video4" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
+			</Border>
+		</Grid>
+
+		<!-- 오른쪽 영역 -->
+		<Grid Grid.Column="1" Margin="10">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="3*"/>
+				<RowDefinition Height="2.5*"/>
+			</Grid.RowDefinitions>
+
+			<!-- 2구역: QueryVideo -->
+			<Grid Grid.Row="0">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="3*"/>
+					<ColumnDefinition Width="2*"/>
+				</Grid.ColumnDefinitions>
+
+				<!-- MediaElement 대신 비디오 재생을 위한 VideoHost -->
+				<Grid Grid.Column="0" Margin="5">
+					<TextBlock Text="Query Video" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"
+                                FontSize="16" FontWeight="Bold" Margin="0,10,0,0"/>
+					<Grid x:Name="MediaGrid" Margin="10" Width="500" Height="300">
+						<MediaElement x:Name="QueryVideo" LoadedBehavior="Manual" UnloadedBehavior="Stop" Stretch="Fill"/>
+					</Grid>
+					<Slider x:Name="VideoSlider" Minimum="0" Maximum="100" Value="0" Margin="0,5,0,0"
+                            IsMoveToPointEnabled="True" ValueChanged="VideoSlider_ValueChanged" VerticalAlignment="Bottom"/>
+				</Grid>
+
+				<!-- 3구역 버튼들 -->
+				<Grid Grid.Column="1" Margin="5">
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>	
+						<RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="*"/>
+						<ColumnDefinition Width="*"/>
+					</Grid.ColumnDefinitions>
+
+					<!-- Select__Query 버튼 -->
+					<Button Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="1" Content="Select__Query" Width="160" Height="28" 
+                            Click="SelectQuery_Click" HorizontalAlignment="Center" Margin="0,10"/>
+
+					<!-- Select__Gallery 버튼 -->
+					<Button Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="1" Content="Select__Gallery" Width="160" Height="28"
+                            Click="SelectGallery_Click" HorizontalAlignment="Center" Margin="0,10,0,5"/>
+
+					<!-- Screen_Shot 버튼 -->
+					<Button Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="1" Content="Screen_Shot" Width="160" Height="28"
+                            Click="ScreenShotButton_Click" HorizontalAlignment="Center" Margin="0,10,0,5"/>
+
+					<!-- BW5s, FW5s, TG 버튼 -->
+					<Button Grid.Row="3" Grid.Column="0" Click="BackwardButton_Click" Width="40" Height="40"
+							Style="{StaticResource CircularButton}" HorizontalAlignment="Left" Margin="3,10,0,5">
+						<Image Source="Resources\left.png" Width="20" Height="20"/>
+					</Button>
+
+					<!-- TG 버튼 -->
+					<Button Grid.Row="3" Grid.Column="0" Click="TGButton_Click" Width="40" Height="40"
+							Style="{StaticResource CircularButton}" HorizontalAlignment="Center" Margin="0,10,0,5">
+						<Image Name="TogglePlayImage" Source="Resources/play.png" Width="30" Height="30"/>
+					</Button>
+
+					<!-- FW5s 버튼 -->
+					<Button Grid.Row="3" Grid.Column="0" Click="ForwardButton_Click" Width="40" Height="40"
+							Style="{StaticResource CircularButton}" HorizontalAlignment="Right" Margin="0,10,3,5">
+						<Image Source="Resources/right.png" Width="20" Height="20"/>
+					</Button>
+
+                    <!-- 서버 연결 버튼 -->
+                    <Button Grid.Row="4" Grid.Column="0" Content="서버 연결" Width="160" Height="28"
+						Click="ConnectToServerButton_Click" HorizontalAlignment="Center" Margin="0,10,0,5"/>
+                    <!-- 서버에서 읽은 파일 내용을 표시할 텍스트 박스 -->
+                    <TextBox x:Name="FileContentTextBox" Grid.Row="5" Grid.Column="0" Width="100" Height="100" 
+             HorizontalAlignment="Center" Margin="0,10,0,5" TextWrapping="Wrap" AcceptsReturn="True" 
+             VerticalScrollBarVisibility="Auto" IsReadOnly="True"/>
+
+                </Grid>
+			</Grid>
+
+			<!-- 하단 영역: 4구역 -->
+			<Grid Grid.Row="1">
+				<StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+					<Border BorderBrush="Gray" BorderThickness="1" Width="200" Height="300" Margin="5">
+						<TextBlock Text="Rank_1" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+					</Border>
+					<Border BorderBrush="Gray" BorderThickness="1" Width="200" Height="300" Margin="5">
+						<TextBlock Text="Rank_2" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+					</Border>
+					<Border BorderBrush="Gray" BorderThickness="1" Width="200" Height="300" Margin="5">
+						<TextBlock Text="Rank_3" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+					</Border>
+				</StackPanel>
+			</Grid>
+		</Grid>
+	</Grid>
+</Window>
